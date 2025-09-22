@@ -9,6 +9,9 @@ public class Universe {
         this.radius = radius;
         System.out.println("Number of bodies: " + numBodies);
         System.out.println("Radius: " + radius);
+        for (Body b : bodies) {
+            System.out.println(b);
+        }
     }
 
     public double getRadius() {
