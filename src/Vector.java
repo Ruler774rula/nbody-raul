@@ -23,7 +23,7 @@
  *
  ******************************************************************************/
 
-public class Vector { 
+public class Vector {
 
     private final int n;         // length of the vector
     private double[] data;       // array of vector's components

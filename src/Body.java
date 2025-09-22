@@ -10,13 +10,15 @@
 
 public class Body {
     private Vector position;           // position
-    private Vector velocity;// velocity
-    private final double mass;  // mass
+    private Vector velocity;           // velocity
+    private final double mass;         // mass
+    private final double G;            // gravitational constant
 
-    public Body(Vector r, Vector v, double mass) {
+    public Body(Vector r, Vector v, double mass, double G) {
         this.position = r;
         this.velocity = v;
         this.mass = mass;
+        this.G = G;
     }
 
     public void move(Vector f, double dt) {
@@ -27,9 +29,11 @@ public class Body {
 
     public Vector forceFrom(Body b) {
         Body a = this;
-        double G = 6.67e-11;
         Vector delta = b.position.minus(a.position);
         double dist = delta.magnitude();
+        if (dist == 0) {
+            return new Vector(new double[2]); // Evitar división por cero
+        }
         double magnitude = (G * a.mass * b.mass) / (dist * dist);
         return delta.direction().scale(magnitude);
     }
