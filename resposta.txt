@@ -1,0 +1,13 @@
+which GRASP patterns / design principles are we applying in doing the refactoring ? and each of the extensions ? why do you say so ?
+En el refactoritzat hem aplicat sobretot el principi de donar la responsabilitat a qui té la informació. Per exemple, el Body sap la seva massa, posició i velocitat, i per això és ell qui actualitza el seu estat i calcula la força amb altres cossos. 
+Així evitem que altres classes s’encarreguin de coses que no els pertoquen. També hem aconseguit reduir l’acoblament i augmentar la cohesió, ja que ara el dibuix no està dins de Body sinó en el NBodySimulator, i això fa que cada classe tingui una funció més clara. 
+El NBodySimulator també fa una mica de controlador del cicle de simulació.
+
+En l’extensió de les configuracions hem creat un UniverseFactory. D’aquesta manera no carreguem la classe Universe amb tot de constructors diferents i queda molt més net. 
+Aquí apliquem la idea de separar responsabilitats i de tenir un creador especialitzat que s’encarrega de muntar l’univers segons la configuració que volem (fitxer, planetes, coreografies...). 
+Això també ens dóna flexibilitat de cara a afegir més configuracions en el futur.
+
+En l’extensió dels mètodes d’integració hem seguit una aproximació semblant: cada mètode (Euler, Leapfrog, etc.) es pot veure com una “estratègia” diferent. Això ens permet canviar la manera de calcular l’evolució sense tocar la resta del codi, i facilita afegir nous mètodes. 
+És una aplicació del polimorfisme i també manté la cohesió perquè cada integrador només fa la seva feina.
+
+En resum, hem intentat aplicar els patrons GRASP d’expert, controlador i creador, junt amb principis com el baix acoblament, alta cohesió, polimorfisme i estratègia. Tot plegat fa que el codi sigui més fàcil d’entendre, mantenir i ampliar.
