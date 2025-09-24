@@ -3,23 +3,24 @@ import java.util.List;
 
 public class NBodySimulator {
     private Universe universe;
-    private double timeStep;
+    private Integrator integrator;
     private int pauseTime;
     private boolean trace;
-    private List<Vector>[] trajectories;  // Lista de trayectorias por cuerpo
+    private List<Vector>[] trajectories;
 
     @SuppressWarnings("unchecked")
-    public NBodySimulator(Universe universe, double dt, int pt, boolean doTrace) {
+    public NBodySimulator(Universe universe, Integrator integrator, int pauseTime, boolean trace) {
         this.universe = universe;
-        timeStep = dt;
-        pauseTime = pt;
-        trace = doTrace;
-        // Inicializar trayectorias
+        this.integrator = integrator;
+        this.pauseTime = pauseTime;
+        this.trace = trace;
         int n = universe.getNumBodies();
         trajectories = new List[n];
         for (int i = 0; i < n; i++) {
             trajectories[i] = new ArrayList<>();
-            trajectories[i].add(universe.getBodyPosition(i));  // Posición inicial
+            trajectories[i].add(universe.getBodyPosition(i));
+            Vector a = universe.computeForceOn(i).scale(1.0 / universe.getBodyMass(i));
+            universe.setBodyAcceleration(i, a);
         }
     }
 
@@ -34,22 +35,23 @@ public class NBodySimulator {
     public void simulate() {
         createCanvas();
         while (true) {
-            StdDraw.clear();  // Limpiar pantalla en cada iteración
+            StdDraw.clear();
             if (trace) {
                 StdDraw.setPenColor(StdDraw.GRAY);
-                // Dibujar todas las posiciones pasadas
                 for (int i = 0; i < universe.getNumBodies(); i++) {
                     for (Vector pos : trajectories[i]) {
                         StdDraw.point(pos.cartesian(0), pos.cartesian(1));
                     }
                 }
             }
-            universe.update(timeStep);
-            // Actualizar trayectorias con la nueva posición
+            integrator.move(universe);
+
             for (int i = 0; i < universe.getNumBodies(); i++) {
+                Vector a = universe.computeForceOn(i).scale(1.0 / universe.getBodyMass(i));
+                universe.setBodyAcceleration(i, a);
                 trajectories[i].add(universe.getBodyPosition(i));
             }
-            StdDraw.setPenColor(StdDraw.BLACK);  // Dibujar posición actual en negro
+            StdDraw.setPenColor(StdDraw.BLACK);
             drawUniverse();
             StdDraw.show();
             StdDraw.pause(pauseTime);

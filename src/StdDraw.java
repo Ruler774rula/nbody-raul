@@ -533,8 +533,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     public static final Color PRINCETON_ORANGE = new Color(245, 128, 37);
 
     // default colors
-    private static final Color DEFAULT_PEN_COLOR   = BLACK;
-    private static final Color DEFAULT_CLEAR_COLOR = WHITE;
+    private static final Color DEFAULT_PEN_COLOR   = WHITE;
+    private static final Color DEFAULT_CLEAR_COLOR = BLACK;
 
     // current pen color
     private static Color penColor;
@@ -682,8 +682,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         menuBar.add(menu);
         JMenuItem menuItem1 = new JMenuItem(" Save...   ");
         menuItem1.addActionListener(std);
-        menuItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-                                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         menu.add(menuItem1);
         return menuBar;
     }

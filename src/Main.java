@@ -1,7 +1,8 @@
 public class Main {
     public static void main(String[] args) {
-        if (args.length < 4) {
-            System.out.println("Uso: java Main <dt> <pauseTime> <trace> <configType> [params...]");
+        if (args.length < 5) {
+            System.out.println("Uso: java Main <dt> <pauseTime> <trace> <integrator> <configType> [params...]");
+            System.out.println("integrator: euler | leapfrog");
             System.out.println("configType: file <fname> | central <numBodies> <angleVelPos> | planetary <numPlanets> | choreo <nchoreography>");
             return;
         }
@@ -9,42 +10,50 @@ public class Main {
         double dt = Double.parseDouble(args[0]);
         int pauseTime = Integer.parseInt(args[1]);
         boolean trace = args[2].toLowerCase().equals("trace");
-        String configType = args[3].toLowerCase();
+        String integratorType = args[3].toLowerCase();
+        String configType = args[4].toLowerCase();
 
         Universe universe = null;
-        int argIndex = 4;
+        int argIndex = 5;
 
+        // ============================
+        // Construir Universe según configType
+        // ============================
         if (configType.equals("file")) {
-            if (args.length < 5) {
+            if (args.length < 6) {
                 System.out.println("Falta fname para file");
                 return;
             }
             String fname = args[argIndex++];
             universe = UniverseFactory.makeUniverseFromFile(fname);
+
         } else if (configType.equals("central")) {
-            if (args.length < 6) {
+            if (args.length < 7) {
                 System.out.println("Faltan numBodies y angleVelPos para central");
                 return;
             }
             int numBodies = Integer.parseInt(args[argIndex++]);
             double angleVelPos = Double.parseDouble(args[argIndex++]);
             universe = UniverseFactory.makeCentralConfiguration(numBodies, angleVelPos);
+
         } else if (configType.equals("planetary")) {
-            if (args.length < 5) {
+            if (args.length < 6) {
                 System.out.println("Falta numPlanets para planetary");
                 return;
             }
             int numPlanets = Integer.parseInt(args[argIndex++]);
             universe = UniverseFactory.makePlanetaryConfiguration(numPlanets);
+
         } else if (configType.equals("choreo")) {
-            if (args.length < 5) {
+            if (args.length < 6) {
                 System.out.println("Falta nchoreography para choreo");
                 return;
             }
             int nchoreography = Integer.parseInt(args[argIndex++]);
             universe = UniverseFactory.makeChoreography(nchoreography);
+
         } else {
-            System.out.println("configType inválido");
+            System.out.println("configType no es correcto");
             return;
         }
 
@@ -53,7 +62,23 @@ public class Main {
             return;
         }
 
-        NBodySimulator simulator = new NBodySimulator(universe, dt, pauseTime, trace);
+        // ============================
+        // Selección del integrador
+        // ============================
+        Integrator integrator;
+        if (integratorType.equals("euler")) {
+            integrator = new EulerIntegrator(dt);
+        } else if (integratorType.equals("leapfrog")) {
+            integrator = new LeapfrogIntegrator(dt);
+        } else {
+            System.out.println("Método de integración no válido: " + integratorType);
+            return;
+        }
+
+        // ============================
+        // Lanzar simulación
+        // ============================
+        NBodySimulator simulator = new NBodySimulator(universe, integrator, pauseTime, trace);
         simulator.simulate();
     }
 }

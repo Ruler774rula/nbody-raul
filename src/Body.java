@@ -2,7 +2,7 @@
  *  Compilation:  javac Body.java
  *  Execution:    java Body
  *  Dependencies: Vector.java StdDraw.java
- *
+
  *  Implementation of a 2D Body with a position, velocity and mass.
  *
  *
@@ -11,6 +11,7 @@
 public class Body {
     private Vector position;           // position
     private Vector velocity;           // velocity
+    private Vector acceleration;  // aceleración (necesaria para Leapfrog)
     private final double mass;         // mass
     private final double G;            // gravitational constant
 
@@ -19,14 +20,18 @@ public class Body {
         this.velocity = v;
         this.mass = mass;
         this.G = G;
+        this.acceleration = new Vector(new double[2]); // empieza en (0,0)
     }
 
     public void move(Vector f, double dt) {
-        Vector a = f.scale(1/mass);
-        velocity = velocity.plus(a.scale(dt));
-        position = position.plus(velocity.scale(dt));
+        System.out.println("Move body");
+        Vector a = f.scale(1/mass); // f = m a
+        this.velocity = this.velocity.plus(a.scale(dt)); // v = a t
+        this.position = this.position.plus(this.velocity.scale(dt)); // e = v t
+
     }
 
+    // Fuerza que ejerce otro cuerpo b sobre este
     public Vector forceFrom(Body b) {
         Body a = this;
         Vector delta = b.position.minus(a.position);
@@ -45,5 +50,28 @@ public class Body {
 
     public Vector getPosition() {
         return position;
+    }
+    public void setPosition(Vector pos) {
+        this.position = pos;
+    }
+
+    public Vector getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(Vector vel) {
+        this.velocity = vel;
+    }
+
+    public double getMass() {
+        return mass;
+    }
+
+    public Vector getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(Vector acc) {
+        this.acceleration = acc;
     }
 }

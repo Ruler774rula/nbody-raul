@@ -45,4 +45,40 @@ public class Universe {
             bodies[i].move(f[i], dt);
         }
     }
+
+    public Vector getBodyVelocity(int i) {
+        return bodies[i].getVelocity();
+    }
+
+    public double getBodyMass(int i) {
+        return bodies[i].getMass();
+    }
+
+    public Vector getBodyAcceleration(int i) {
+        return bodies[i].getAcceleration();
+    }
+
+    public void setBodyPosition(int i, Vector pos) {
+        bodies[i].setPosition(pos);
+    }
+
+    public void setBodyVelocity(int i, Vector vel) {
+        bodies[i].setVelocity(vel);
+    }
+
+    public void setBodyAcceleration(int i, Vector acc) {
+        bodies[i].setAcceleration(acc);
+    }
+
+    //Fuerzas
+    public Vector computeForceOn(int i) {
+        Vector f = new Vector(new double[2]); // inicializamos en (0,0)
+        for (int j = 0; j < numBodies; j++) {
+            if (i != j) {
+                f = f.plus(bodies[i].forceFrom(bodies[j]));
+            }
+        }
+        return f;
+    }
+
 }

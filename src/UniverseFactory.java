@@ -103,6 +103,7 @@ public class UniverseFactory {
         Vector v1 = new Vector(new double[]{0, -2 * c4});
         Vector v2 = new Vector(new double[]{c3, c4});
         Vector v3 = new Vector(new double[]{-c3, c4});
+
         double radius = 0.5;
         int numBodies = 3;
         Body[] bodies = new Body[numBodies];
