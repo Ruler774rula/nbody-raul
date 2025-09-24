@@ -1,25 +1,26 @@
 public class Main {
     public static void main(String[] args) {
-        if (args.length < 5) {
+        if (args.length < 5) { //validació dels arguments
             System.out.println("Uso: java Main <dt> <pauseTime> <trace> <integrator> <configType> [params...]");
             System.out.println("integrator: euler | leapfrog");
             System.out.println("configType: file <fname> | central <numBodies> <angleVelPos> | planetary <numPlanets> | choreo <nchoreography>");
             return;
         }
 
-        double dt = Double.parseDouble(args[0]);
-        int pauseTime = Integer.parseInt(args[1]);
-        boolean trace = args[2].toLowerCase().equals("trace");
-        String integratorType = args[3].toLowerCase();
-        String configType = args[4].toLowerCase();
+        //Paràmetres de configuració de la simulació
+        double dt = Double.parseDouble(args[0]);//Pas del temps, contra més petit, més precis
+        int pauseTime = Integer.parseInt(args[1]);//temps de pausa entre fotogrames
+        boolean trace = args[2].toLowerCase().equals("trace");//Activa/desactiva el rastre de les òrbites
+        String integratorType = args[3].toLowerCase();//Tipus d'integrador (euler o leapfrog)
+        String configType = args[4].toLowerCase();//Tipus de configuració inicial (arxiu, central, etc.)
 
         Universe universe = null;
         int argIndex = 5;
 
         // ============================
-        // Construir Universe según configType
+        // Construir Universe segons configType
         // ============================
-        if (configType.equals("file")) {
+        if (configType.equals("file")) {// Càrrega des d'un fitxer.
             if (args.length < 6) {
                 System.out.println("Falta fname para file");
                 return;
@@ -63,7 +64,7 @@ public class Main {
         }
 
         // ============================
-        // Selección del integrador
+        // Selección del integrador segons el seleccionat amb el parametre "integratorType"
         // ============================
         Integrator integrator;
         if (integratorType.equals("euler")) {
@@ -76,7 +77,7 @@ public class Main {
         }
 
         // ============================
-        // Lanzar simulación
+        // Llençament de la simulació
         // ============================
         NBodySimulator simulator = new NBodySimulator(universe, integrator, pauseTime, trace);
         simulator.simulate();
