@@ -1,0 +1,106 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+
+class Vector {
+  - n: int
+  - data: double[]
+  + Vector(int n)
+  + Vector(double[] data)
+  + length(): int
+  + dot(Vector that): double
+  + magnitude(): double
+  + plus(Vector that): Vector
+  + minus(Vector that): Vector
+  + cartesian(int i): double
+  + scale(double factor): Vector
+  + direction(): Vector
+  + toString(): String
+}
+
+class Body {
+  - position: Vector
+  - velocity: Vector
+  - acceleration: Vector
+  - mass: double
+  - G: double
+  + Body(Vector r, Vector v, double mass, double G)
+  + move(Vector f, double dt): void
+  + forceFrom(Body b): Vector
+  + toString(): String
+  + getPosition(): Vector
+  + setPosition(Vector pos): void
+  + getVelocity(): Vector
+  + setVelocity(Vector vel): void
+  + getMass(): double
+  + getAcceleration(): Vector
+  + setAcceleration(Vector acc): void
+}
+Body "1" *-- "3" Vector : position, velocity, acceleration
+
+class Universe {
+  - numBodies: int
+  - radius: double
+  - bodies: Body[]
+  + Universe(Body[] bodies, double radius)
+  + getRadius(): double
+  + getNumBodies(): int
+  + getBodyPosition(int i): Vector
+  + getBodyVelocity(int i): Vector
+  + getBodyMass(int i): double
+  + getBodyAcceleration(int i): Vector
+  + setBodyPosition(int i, Vector pos): void
+  + setBodyVelocity(int i, Vector vel): void
+  + setBodyAcceleration(int i, Vector acc): void
+  + computeForceOn(int i): Vector
+}
+Universe "1" *-- "*" Body : bodies
+
+abstract class Integrator {
+  # timeStep: double
+  + Integrator(double timeStep)
+  + {abstract} move(Universe universe): void
+}
+
+class EulerIntegrator extends Integrator {
+  + EulerIntegrator(double timeStep)
+  + move(Universe universe): void
+}
+
+class LeapfrogIntegrator extends Integrator {
+  + LeapfrogIntegrator(double timeStep)
+  + move(Universe universe): void
+}
+
+class UniverseFactory {
+  + {static} randomBetween(double min, double max): double
+  + {static} makeUniverseFromFile(String fname): Universe
+  + {static} makeCentralConfiguration(int numBodies, double angleVelPos): Universe
+  + {static} makePlanetaryConfiguration(int numPlanets): Universe
+  + {static} makeChoreography(int nchoreography): Universe
+}
+UniverseFactory ..> Universe : creates
+
+class NBodySimulator {
+  - universe: Universe
+  - integrator: Integrator
+  - pauseTime: int
+  - trace: boolean
+  - trajectories: List<Vector>[]
+  + NBodySimulator(Universe universe, Integrator integrator, int pauseTime, boolean trace)
+  - createCanvas(): void
+  + simulate(): void
+  - drawUniverse(): void
+}
+NBodySimulator "1" --> "1" Universe
+NBodySimulator "1" --> "1" Integrator
+NBodySimulator "1" *-- "*" Vector : trajectories (via List)
+
+class Main {
+  + {static} main(String[] args): void
+}
+Main ..> NBodySimulator : creates
+Main ..> UniverseFactory : uses
+Main ..> Integrator : creates (Euler or Leapfrog)
+
+@enduml

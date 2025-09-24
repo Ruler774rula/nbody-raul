@@ -9,13 +9,16 @@ public class NBodySimulator {
     private List<Vector>[] trajectories;
 
     @SuppressWarnings("unchecked")
-    public NBodySimulator(Universe universe, Integrator integrator, int pauseTime, boolean trace) {
+
+    public NBodySimulator(Universe universe, Integrator integrator, int pauseTime, boolean trace) { //Constructor per crear simulació
         this.universe = universe;
         this.integrator = integrator;
         this.pauseTime = pauseTime;
         this.trace = trace;
         int n = universe.getNumBodies();
         trajectories = new List[n];
+
+        //Trajectories de la simulació
         for (int i = 0; i < n; i++) {
             trajectories[i] = new ArrayList<>();
             trajectories[i].add(universe.getBodyPosition(i));
@@ -37,7 +40,8 @@ public class NBodySimulator {
         while (true) {
             StdDraw.clear();
             if (trace) {
-                StdDraw.setPenColor(StdDraw.GRAY);
+                StdDraw.setPenColor(StdDraw.GRAY); // Color trace
+
                 for (int i = 0; i < universe.getNumBodies(); i++) {
                     for (Vector pos : trajectories[i]) {
                         StdDraw.point(pos.cartesian(0), pos.cartesian(1));
@@ -51,7 +55,9 @@ public class NBodySimulator {
                 universe.setBodyAcceleration(i, a);
                 trajectories[i].add(universe.getBodyPosition(i));
             }
-            StdDraw.setPenColor(StdDraw.BLACK);
+
+
+            StdDraw.setPenColor(StdDraw.YELLOW); // Color render d'objecte
             drawUniverse();
             StdDraw.show();
             StdDraw.pause(pauseTime);

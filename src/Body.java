@@ -50,12 +50,16 @@ public class Body {
         return "position "+ position.toString()+", velocity "+ velocity.toString() + ", mass "+mass;
     }
 
+    // POSITION
+
     public Vector getPosition() {
         return position;
     }
     public void setPosition(Vector pos) {
         this.position = pos;
     }
+
+    // VELOCITY
 
     public Vector getVelocity() {
         return velocity;
@@ -65,9 +69,13 @@ public class Body {
         this.velocity = vel;
     }
 
+    // MASS
+
     public double getMass() {
         return mass;
     }
+
+    // ACCELERATION
 
     public Vector getAcceleration() {
         return acceleration;

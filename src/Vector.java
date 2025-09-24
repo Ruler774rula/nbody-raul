@@ -22,6 +22,7 @@
  *  Note that java.util.Vector is an unrelated Java library class.
  *
  ******************************************************************************/
+//
 
 public class Vector {
 
@@ -79,12 +80,6 @@ public class Vector {
         return Math.sqrt(this.dot(this));
     }
 
-    // return the Euclidean distance between this and that
-    public double distanceTo(Vector that) {
-        if (this.length() != that.length())
-            throw new IllegalArgumentException("dimensions disagree");
-        return this.minus(that).magnitude();
-    }
 
     // return this + that
     public Vector plus(Vector that) {
@@ -166,3 +161,5 @@ public class Vector {
         System.out.println("|x - y|  =  " + x.minus(y).magnitude());
     }
 }
+
+//

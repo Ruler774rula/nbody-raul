@@ -33,6 +33,7 @@ public class UniverseFactory {
         return new Universe(bodies, radius);
     }
 
+    // Configuració Central
     public static Universe makeCentralConfiguration(int numBodies, double angleVelPos) {
         final double RADIUS = 1e11;
         final double GAMMA = 5e-5;
@@ -52,6 +53,7 @@ public class UniverseFactory {
         return new Universe(bodies, RADIUS);
     }
 
+    // Configuració Planetary
     public static Universe makePlanetaryConfiguration(int numPlanets) {
         final double MAX_VELOCITY = 1e05;
         final double MIN_VELOCITY = 1e04;
@@ -77,6 +79,7 @@ public class UniverseFactory {
         return new Universe(bodies, RADIUS);
     }
 
+    // Configuració Choreo
     public static Universe makeChoreography(int nchoreography) {
         String fname = "data/simo-initial-conditions.txt";
         final int NUM_CHOREOGRAPHIES = 345;

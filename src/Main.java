@@ -8,11 +8,11 @@ public class Main {
         }
 
         //Paràmetres de configuració de la simulació
-        double dt = Double.parseDouble(args[0]);//Pas del temps, contra més petit, més precis
-        int pauseTime = Integer.parseInt(args[1]);//temps de pausa entre fotogrames
-        boolean trace = args[2].toLowerCase().equals("trace");//Activa/desactiva el rastre de les òrbites
-        String integratorType = args[3].toLowerCase();//Tipus d'integrador (euler o leapfrog)
-        String configType = args[4].toLowerCase();//Tipus de configuració inicial (arxiu, central, etc.)
+        double dt = Double.parseDouble(args[0]);                    //Pas del temps, contra més petit, més precis
+        int pauseTime = Integer.parseInt(args[1]);                  //temps de pausa entre fotogrames
+        boolean trace = args[2].toLowerCase().equals("trace");      //Activa / desactiva el rastre de les òrbites
+        String integratorType = args[3].toLowerCase();              //Tipus d'integrador (euler o leapfrog)
+        String configType = args[4].toLowerCase();                  //Tipus de configuració inicial (arxiu, central, etc.)
 
         Universe universe = null;
         int argIndex = 5;
@@ -20,6 +20,7 @@ public class Main {
         // ============================
         // Construir Universe segons configType
         // ============================
+
         if (configType.equals("file")) {// Càrrega des d'un fitxer.
             if (args.length < 6) {
                 System.out.println("Falta fname para file");
@@ -64,8 +65,9 @@ public class Main {
         }
 
         // ============================
-        // Selección del integrador segons el seleccionat amb el parametre "integratorType"
+        // Selecció del integrador segons el seleccionat amb el parametre "integratorType"
         // ============================
+
         Integrator integrator;
         if (integratorType.equals("euler")) {
             integrator = new EulerIntegrator(dt);
@@ -79,6 +81,7 @@ public class Main {
         // ============================
         // Llençament de la simulació
         // ============================
+
         NBodySimulator simulator = new NBodySimulator(universe, integrator, pauseTime, trace);
         simulator.simulate();
     }

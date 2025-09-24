@@ -22,28 +22,10 @@ public class Universe {
         return numBodies;
     }
 
+    // GETTERS
+
     public Vector getBodyPosition(int i) {
         return bodies[i].getPosition();
-    }
-
-    public void update(double dt) {
-        // Inicializar fuerzas a cero
-        Vector[] f = new Vector[numBodies];
-        for (int i = 0; i < numBodies; i++) {
-            f[i] = new Vector(new double[2]);  // Vector cero
-        }
-        // Calcular fuerzas
-        for (int i = 0; i < numBodies; i++) {
-            for (int j = 0; j < numBodies; j++) {
-                if (i != j) {
-                    f[i] = f[i].plus(bodies[i].forceFrom(bodies[j]));
-                }
-            }
-        }
-        // Mover cuerpos
-        for (int i = 0; i < numBodies; i++) {
-            bodies[i].move(f[i], dt);
-        }
     }
 
     public Vector getBodyVelocity(int i) {
@@ -58,6 +40,8 @@ public class Universe {
         return bodies[i].getAcceleration();
     }
 
+    // SETTERS
+
     public void setBodyPosition(int i, Vector pos) {
         bodies[i].setPosition(pos);
     }
@@ -70,7 +54,7 @@ public class Universe {
         bodies[i].setAcceleration(acc);
     }
 
-    //Fuerzas
+    //Computem les forces. Complexitat O(N^2) però més precisa
     public Vector computeForceOn(int i) {
         Vector f = new Vector(new double[2]); // inicializamos en (0,0)
         for (int j = 0; j < numBodies; j++) {

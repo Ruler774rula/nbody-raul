@@ -1,0 +1,13 @@
+// EULER
+0.005 1 trace euler choreo 1
+0.001 1 trace euler choreo 2
+5000 1 trace euler file data/3body.txt
+10 1 trace euler planetary 3
+520 1 trace euler central 6 200
+
+// LEAPFROG
+0.005 1 trace leapfrog choreo 1
+0.001 1 trace leapfrog choreo 2
+5000 1 trace leapfrog file data/3body.txt
+10 1 trace leapfrog planetary 3
+520 1 trace leapfrog central 6 200
